@@ -69,16 +69,21 @@ img{height:auto}
 .ba{position:relative;aspect-ratio:9/16;border-radius:20px;overflow:hidden;background:var(--tint);--pos:50%;box-shadow:0 18px 40px rgba(36,22,30,.18)}
 .ba img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .ba .after{clip-path:inset(0 0 0 var(--pos))}
-.ba .bar{position:absolute;top:0;bottom:0;left:var(--pos);width:3px;background:var(--gold);transform:translateX(-50%);pointer-events:none}
-.ba .knob{position:absolute;top:50%;left:var(--pos);width:44px;height:44px;border-radius:50%;background:var(--gold);transform:translate(-50%,-50%);display:grid;place-items:center;pointer-events:none;box-shadow:0 4px 12px rgba(0,0,0,.35)}
-.ba .knob svg{width:22px;height:22px}
+.ba .bar{position:absolute;top:0;bottom:0;left:var(--pos);width:4px;background:var(--gold);transform:translateX(-50%);pointer-events:none;box-shadow:0 0 14px rgba(217,164,65,.9)}
+.ba .knob{position:absolute;top:50%;left:var(--pos);width:62px;height:62px;border-radius:50%;background:var(--gold);border:3px solid #fff;transform:translate(-50%,-50%);display:grid;place-items:center;pointer-events:none;box-shadow:0 4px 14px rgba(0,0,0,.45);animation:knobpulse 1.5s ease-out infinite}
+.ba .knob svg{width:30px;height:30px}
+.ba .hint{position:absolute;top:calc(50% + 44px);left:var(--pos);transform:translateX(-50%);background:var(--plum-deep);color:#fff;font:800 .66rem/1 var(--body);letter-spacing:.14em;padding:7px 10px;border-radius:999px;border:1px solid var(--gold);pointer-events:none;white-space:nowrap}
+.ba.used .knob{animation:none}
+.ba.used .hint{display:none}
+@keyframes knobpulse{0%{box-shadow:0 4px 14px rgba(0,0,0,.45),0 0 0 0 rgba(217,164,65,.85)}100%{box-shadow:0 4px 14px rgba(0,0,0,.45),0 0 0 24px rgba(217,164,65,0)}}
 .ba .lab{position:absolute;top:14px;font:800 .66rem/1 var(--body);letter-spacing:.14em;padding:7px 9px;border-radius:5px}
 .ba .lab.b{left:14px;background:#fff;color:#24161E}
 .ba .lab.a{right:14px;background:var(--gold);color:var(--plum-deep)}
 .ba input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
-.views{display:flex;gap:8px;margin-top:14px}
-.views button{flex:1;font:600 .86rem/1 var(--body);padding:11px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
-.views button[aria-pressed="true"]{background:var(--plum);border-color:var(--plum);color:#fff}
+.views{display:flex;gap:12px;margin-top:20px}
+.views button{flex:1;font:700 .98rem/1 var(--body);padding:16px 10px;border-radius:999px;border:2px solid var(--gold);background:var(--surface);color:var(--fg);cursor:pointer;animation:glow 1.8s ease-in-out infinite;transition:transform .15s ease}
+.views button:hover{transform:translateY(-2px)}
+.views button[aria-pressed="true"]{background:var(--plum);border-color:var(--gold);color:#fff;animation:none;box-shadow:0 0 0 4px rgba(217,164,65,.35),0 0 22px 4px rgba(217,164,65,.45)}
 .swaps{display:grid;gap:10px;margin:24px 0}
 .swaps li{display:flex;align-items:center;gap:12px;font-size:1rem}
 .swaps s{color:var(--muted)}
@@ -179,7 +184,7 @@ footer{padding-block:22px;font-size:.78rem;color:var(--muted);text-align:center}
   .top img{height:30px}
   .stats{gap:10px}
 }
-@media (prefers-reduced-motion:reduce){.btn{transition:none}.phone{transform:none}.live{animation:none;box-shadow:0 0 0 4px rgba(217,164,65,.35)}}
+@media (prefers-reduced-motion:reduce){.btn{transition:none}.phone{transform:none}.live{animation:none;box-shadow:0 0 0 4px rgba(217,164,65,.35)}.views button{animation:none;transition:none;box-shadow:0 0 0 4px rgba(217,164,65,.35)}.ba .knob{animation:none;box-shadow:0 4px 14px rgba(0,0,0,.45),0 0 0 8px rgba(217,164,65,.4)}}
 </style>
 
 <header class="hero">
@@ -226,6 +231,7 @@ footer{padding-block:22px;font-size:.78rem;color:var(--muted);text-align:center}
         <span class="lab b">BEFORE</span><span class="lab a">AFTER</span>
         <span class="bar"></span>
         <span class="knob"><svg viewBox="0 0 24 24" fill="none" stroke="#35122A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6-6 6 6 6M15 6l6 6-6 6"/></svg></span>
+        <span class="hint">DRAG</span>
         <input type="range" id="baRange" min="0" max="100" value="50" aria-label="Drag to compare before and after">
       </div>
       <div class="views" role="group" aria-label="Choose a view">
@@ -386,6 +392,11 @@ footer{padding-block:22px;font-size:.78rem;color:var(--muted);text-align:center}
   var ba=document.getElementById('ba'), r=document.getElementById('baRange');
   function set(){ ba.style.setProperty('--pos', r.value+'%'); }
   r.addEventListener('input', set); set();
+  /* Until the viewer touches it, the slider sweeps gently so the before/after is obvious. */
+  var used=false, still=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function stop(){ if(used) return; used=true; ba.classList.add('used'); }
+  ['pointerdown','touchstart','keydown','input'].forEach(function(ev){ r.addEventListener(ev, stop, {passive:true}); });
+  if(!still){ var t0=null; (function sweep(ts){ if(used) return; if(t0===null) t0=ts; r.value=50+20*Math.sin((ts-t0)/900); set(); requestAnimationFrame(sweep); })(performance.now()); }
   var views={viewSofa:['media/room-before-sofa.jpg','media/room-after-sofa.jpg'], viewPiano:['media/room-before-piano.jpg','media/room-after-piano.jpg']};
   Object.keys(views).forEach(function(id){
     document.getElementById(id).addEventListener('click', function(){
