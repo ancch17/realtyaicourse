@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en-SG">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<style>body{margin:0}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>AI for Real Estate Professionals</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="A one-day, hands-on Claude masterclass for property agencies in Singapore. See what real estate professionals make with Claude: listing reels, copy and a listings website.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,500;0,600;1,500&display=swap">
+<style>
+/* Layout: a property listing for a training day. Plum hero with the reel in a phone frame,
+   then proof you can touch (before/after slider, two reels, a live listings site), then the day, then the trainer. */
+:root{
+  --plum:#4A1C36; --plum-deep:#35122A; --gold:#D9A441; --gold-light:#F0D49A; --on-plum:#FFFFFF; --on-plum-soft:rgba(255,255,255,.78);
+  --bg:#FAF7F5; --surface:#FFFFFF; --fg:#24161E; --muted:#6F5E67; --line:#E7DCDF; --tint:#F3EBEE; --heading:#4A1C36; --plate:#FFFFFF;
+  --display:Lora, Georgia, "Times New Roman", serif; --body:Inter, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#1B1117; --surface:#261821; --fg:#F4ECEF; --muted:#B7A6AE; --line:#3B2733; --tint:#2E1D28; --heading:#F0D49A; --plate:#F4ECEF; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#1B1117; --surface:#261821; --fg:#F4ECEF; --muted:#B7A6AE; --line:#3B2733; --tint:#2E1D28; --heading:#F0D49A; --plate:#F4ECEF; color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.55;margin:0}
+h1,h2,h3,p,figure,ul,dl,dd{margin:0}
+h1,h2,h3{text-wrap:balance}
+ul{padding:0;list-style:none}
+a{color:inherit}
+img,video{max-width:100%;display:block}
+img{height:auto}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(20px, env(safe-area-inset-left, 0px));padding-right:max(20px, env(safe-area-inset-right, 0px))}
+.eyebrow{font:600 .72rem/1.2 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.band{padding-block:72px}
+.band h2{font:600 clamp(1.6rem,3.4vw,2.3rem)/1.15 var(--display);color:var(--heading);margin:10px 0 12px}
+.band .sub{color:var(--muted);max-width:60ch}
+.head{margin-bottom:36px}
+.btn{display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:var(--plum-deep);font:700 1rem/1 var(--body);padding:16px 22px;border-radius:999px;text-decoration:none;transition:transform .15s ease}
+.btn:hover{transform:translateY(-2px)}
+.btn:focus-visible,a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.btn svg{width:20px;height:20px}
+.note{font-size:.78rem;color:var(--muted)}
+
+/* hero */
+.hero{background:var(--plum);color:var(--on-plum);position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(700px 520px at 82% 35%,rgba(217,164,65,.22),transparent 70%);pointer-events:none}
+.hero .wrap{position:relative}
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:22px}
+.top img{height:38px;width:auto}
+.top a{font:600 .9rem/1 var(--body);color:var(--gold-light);text-decoration:none;white-space:nowrap}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:48px;align-items:center;padding-block:28px 72px}
+.hero h1{font:600 clamp(2.2rem,5.4vw,3.7rem)/1.06 var(--display);margin:16px 0 20px}
+.hero h1 em{font-style:italic;font-weight:500;color:var(--gold-light)}
+.lede{font-size:1.14rem;color:var(--on-plum-soft);max-width:44ch}
+.what{font-size:.92rem;color:var(--on-plum-soft);max-width:46ch;margin-top:14px;padding-left:12px;border-left:2px solid var(--gold)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 30px}
+.chips li{border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);border-radius:8px;padding:8px 12px;font:500 .86rem/1 var(--body)}
+.chips b{color:var(--gold-light)}
+.cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px}
+.cta-row span{font-size:.9rem;color:var(--on-plum-soft)}
+.phone{width:min(300px,78vw);margin:0 auto;aspect-ratio:9/16;border-radius:30px;border:6px solid #fff;overflow:hidden;background:#000;box-shadow:0 30px 60px rgba(15,3,10,.5);transform:rotate(2deg)}
+.phone video{width:100%;height:100%;object-fit:cover}
+.hero figcaption{text-align:center;font-size:.76rem;color:var(--on-plum-soft);margin-top:18px}
+
+/* slider */
+.slide-grid{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:56px;align-items:center}
+.ba{position:relative;aspect-ratio:9/16;border-radius:20px;overflow:hidden;background:var(--tint);--pos:50%;box-shadow:0 18px 40px rgba(36,22,30,.18)}
+.ba img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ba .after{clip-path:inset(0 0 0 var(--pos))}
+.ba .bar{position:absolute;top:0;bottom:0;left:var(--pos);width:3px;background:var(--gold);transform:translateX(-50%);pointer-events:none}
+.ba .knob{position:absolute;top:50%;left:var(--pos);width:44px;height:44px;border-radius:50%;background:var(--gold);transform:translate(-50%,-50%);display:grid;place-items:center;pointer-events:none;box-shadow:0 4px 12px rgba(0,0,0,.35)}
+.ba .knob svg{width:22px;height:22px}
+.ba .lab{position:absolute;top:14px;font:800 .66rem/1 var(--body);letter-spacing:.14em;padding:7px 9px;border-radius:5px}
+.ba .lab.b{left:14px;background:#fff;color:#24161E}
+.ba .lab.a{right:14px;background:var(--gold);color:var(--plum-deep)}
+.ba input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
+.views{display:flex;gap:8px;margin-top:14px}
+.views button{flex:1;font:600 .86rem/1 var(--body);padding:11px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
+.views button[aria-pressed="true"]{background:var(--plum);border-color:var(--plum);color:#fff}
+.swaps{display:grid;gap:10px;margin:24px 0}
+.swaps li{display:flex;align-items:center;gap:12px;font-size:1rem}
+.swaps s{color:var(--muted)}
+.swaps svg{width:18px;height:18px;color:var(--gold);flex:none}
+.rule{background:var(--tint);border-radius:12px;padding:16px 18px;font-size:.92rem}
+.rule b{color:var(--heading)}
+.rule a{color:var(--heading);font-weight:600}
+
+/* reels */
+.alt{background:var(--tint)}
+.reels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px;max-width:760px}
+.reel{display:grid;gap:14px}
+.reel .frame{aspect-ratio:9/16;border-radius:18px;overflow:hidden;background:#000;box-shadow:0 14px 32px rgba(36,22,30,.2)}
+.reel video{width:100%;height:100%;object-fit:cover}
+.reel h3{font:600 1.2rem/1.2 var(--display);color:var(--heading)}
+.reel p{font-size:.92rem;color:var(--muted)}
+.reel .tag{font:600 .72rem/1.3 var(--body);color:var(--muted);border-top:1px solid var(--line);padding-top:10px}
+.reels-grid{display:grid;grid-template-columns:minmax(0,760px) minmax(0,1fr);gap:48px;align-items:start}
+.how{display:grid;gap:18px;padding-top:6px}
+.how li{border-left:3px solid var(--gold);padding-left:14px}
+.how b{display:block;font-size:.98rem}
+.how span{font-size:.9rem;color:var(--muted)}
+
+/* learn */
+.feat{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 32px}
+.f{display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px}
+.ico{width:44px;height:44px;border-radius:50%;background:var(--tint);color:var(--heading);display:grid;place-items:center}
+.ico svg{width:22px;height:22px}
+.f h3{font:700 1.02rem/1.25 var(--body);margin:2px 0 4px}
+.f p{font-size:.92rem;color:var(--muted)}
+.day{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:44px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface)}
+.slot{padding:22px 24px}
+.slot+.slot{border-left:1px solid var(--line)}
+.slot .t{font:700 .7rem/1.2 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-variant-numeric:tabular-nums}
+.slot h3{font:600 1.3rem/1.2 var(--display);color:var(--heading);margin:8px 0 6px}
+.slot p{font-size:.92rem;color:var(--muted)}
+
+/* site showcase */
+.site-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:48px;align-items:center}
+.browser{border-radius:12px;overflow:hidden;border:1px solid var(--line);background:var(--plate);box-shadow:0 18px 40px rgba(36,22,30,.16);display:block}
+.browser img{width:100%;height:auto}
+.browser .barr{display:flex;align-items:center;gap:6px;padding:10px 12px;background:#EFE7EA;border-bottom:1px solid #E0D4D9}
+.browser .barr i{width:10px;height:10px;border-radius:50%;background:#CDBcc4}
+.browser .barr span{margin-left:10px;font:500 .74rem/1 var(--body);color:#6F5E67;background:#fff;border-radius:6px;padding:6px 10px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ticks{display:grid;gap:10px;margin:22px 0 26px}
+.ticks li{display:flex;gap:10px;align-items:flex-start}
+.ticks svg{width:20px;height:20px;color:var(--gold);flex:none;margin-top:3px}
+.live{display:inline-flex;align-items:center;gap:12px;background:var(--gold);color:var(--plum-deep);font:800 1.05rem/1 var(--body);padding:18px 26px;border-radius:12px;border:2px solid var(--plum-deep);text-decoration:none;animation:glow 1.8s ease-in-out infinite}
+.live svg{width:20px;height:20px}
+.live:hover{animation-play-state:paused;transform:translateY(-2px)}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(217,164,65,.75),0 6px 16px rgba(36,22,30,.18)}50%{box-shadow:0 0 0 14px rgba(217,164,65,0),0 0 28px 6px rgba(217,164,65,.55)}}
+
+/* trainer */
+.tr-grid{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:48px;align-items:start}
+.portrait{border-radius:16px;overflow:hidden;background:var(--plum);color:#fff}
+.portrait img{width:100%;height:auto;aspect-ratio:4/4.4;object-fit:cover;object-position:50% 15%}
+.portrait div{padding:18px 20px 22px}
+.portrait h3{font:600 1.5rem/1.1 var(--display)}
+.portrait p{font-size:.86rem;color:var(--gold-light);margin-top:6px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:28px}
+.stats b{display:block;font:600 clamp(1.6rem,3.2vw,2.2rem)/1 var(--display);color:var(--heading);font-variant-numeric:lining-nums}
+.stats span{font-size:.82rem;color:var(--muted)}
+.creds{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 28px;margin-bottom:28px}
+.creds dt{font:700 .68rem/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.creds dd{font-size:.92rem}
+.creds dd span{color:var(--muted)}
+.revs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.rev{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:grid;gap:12px;align-content:space-between}
+.rev q{font:italic 500 1rem/1.45 var(--display);quotes:"\201C" "\201D"}
+.rev div{display:flex;justify-content:space-between;gap:8px;font:600 .8rem/1.2 var(--body)}
+.rev i{font-style:normal;color:var(--gold);letter-spacing:.05em}
+.logos{margin-top:36px;background:var(--plate);border:1px solid var(--line);border-radius:14px;padding:22px 26px}
+.logos p{font:700 .68rem/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:#6F5E67;margin-bottom:18px}
+.logos ul{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px 32px}
+.logos img{max-height:34px;max-width:120px;width:auto;opacity:.8;filter:grayscale(1)}
+.logos img.tall{max-height:46px}
+.logos small{display:block;margin-top:16px;font-size:.7rem;color:#6F5E67;line-height:1.4}
+
+/* close */
+.close{background:var(--plum-deep);color:var(--on-plum);text-align:center}
+.close h2{color:var(--on-plum)}
+.close p{color:var(--on-plum-soft);max-width:52ch;margin:0 auto 28px}
+.close .num{display:block;margin-top:18px;font-size:.95rem;color:var(--on-plum-soft);user-select:all}
+footer{padding-block:22px;font-size:.78rem;color:var(--muted);text-align:center}
+
+@media (max-width:900px){
+  .hero-grid,.slide-grid,.reels-grid,.site-grid,.tr-grid{grid-template-columns:minmax(0,1fr);gap:36px}
+  .feat{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ba{max-width:340px;margin:0 auto}.views{max-width:340px;margin-inline:auto}
+  .portrait{max-width:360px}
+}
+@media (max-width:640px){
+  .band{padding-block:52px}
+  .feat,.day,.revs,.creds{grid-template-columns:minmax(0,1fr)}
+  .slot+.slot{border-left:0;border-top:1px solid var(--line)}
+  .reels{gap:14px}
+  .reel h3{font-size:1rem}.reel p{font-size:.84rem}
+  .top img{height:30px}
+  .stats{gap:10px}
+}
+@media (prefers-reduced-motion:reduce){.btn{transition:none}.phone{transform:none}.live{animation:none;box-shadow:0 0 0 4px rgba(217,164,65,.35)}}
+</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="top">
+      <img src="media/logo-gold.png" alt="Impactus Learning" width="800" height="164">
+      <a href="https://wa.me/6593942524" target="_blank" rel="noopener">WhatsApp Andrew</a>
+    </div>
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow">AI for Real Estate Professionals · One-day Claude masterclass</p>
+        <h1>Shot on a phone. Restyled by AI. <em>Made by your team.</em></h1>
+        <p class="lede">One hands-on day with Claude. Real estate professionals learn to make listing reels, copy, client replies and reports, and go home with them already built.</p>
+        <p class="what">Claude is an AI assistant made by Anthropic. It writes, analyses and works on your own files, including raw video clips.</p>
+        <ul class="chips">
+          <li><b>1 day</b> · 7 hours</li>
+          <li>Face-to-face</li>
+          <li>At your office</li>
+          <li>Private team days</li>
+        </ul>
+        <div class="cta-row">
+          <a class="btn" href="https://wa.me/6593942524" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm4.5 12.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.8-1.4.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.7 11.7 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.5-.3z"/></svg>Ask for team pricing</a>
+          <span>or scroll to see what your team can make</span>
+        </div>
+      </div>
+      <figure>
+        <div class="phone">
+          <video controls playsinline preload="metadata" poster="media/real-room-makeover-poster.jpg" aria-label="Real room makeover reel, 25 seconds">
+            <source src="media/real-room-makeover.mp4" type="video/mp4">
+          </video>
+        </div>
+        <figcaption>25 seconds. Tap to play with sound.<br>Virtually staged with AI. Layout unchanged. AI avatar and voice.</figcaption>
+      </figure>
+    </div>
+  </div>
+</header>
+
+<section class="band">
+  <div class="wrap slide-grid">
+    <div>
+      <div class="ba" id="ba">
+        <img class="before" id="baBefore" src="media/room-before-sofa.jpg" alt="A real living room, as shot on a phone" width="900" height="1600">
+        <img class="after" id="baAfter" src="media/room-after-sofa.jpg" alt="The same living room, restyled by AI" width="900" height="1600">
+        <span class="lab b">BEFORE</span><span class="lab a">AFTER</span>
+        <span class="bar"></span>
+        <span class="knob"><svg viewBox="0 0 24 24" fill="none" stroke="#35122A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6-6 6 6 6M15 6l6 6-6 6"/></svg></span>
+        <input type="range" id="baRange" min="0" max="100" value="50" aria-label="Drag to compare before and after">
+      </div>
+      <div class="views" role="group" aria-label="Choose a view">
+        <button type="button" id="viewSofa" aria-pressed="true">Sofa view</button>
+        <button type="button" id="viewPiano" aria-pressed="false">Piano view</button>
+      </div>
+    </div>
+    <div>
+      <p class="eyebrow">Drag the slider</p>
+      <h2>A real living room. The same phone clip.</h2>
+      <p class="sub">Nothing was moved or bought. AI restyled the furniture so a buyer can picture living there.</p>
+      <ul class="swaps">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span><s>Grey sofa</s> &nbsp;Cream bouclé curve</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span><s>Round table</s> &nbsp;Travertine coffee table</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span><s>Upright piano</s> &nbsp;Walnut sideboard</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span><s>Christmas tree</s> &nbsp;Fiddle-leaf fig</span></li>
+      </ul>
+      <p class="rule"><b>Done the compliant way.</b> Real estate professionals should give a clear disclaimer when AI alters a property image or video, and CEA has acted against those who did not. Your team learns what to write and where it goes. <a href="https://www.mti.gov.sg/newsroom/written-reply-to-pqs-on-regulations-for-advertisements-that-make-false-claims-by-using-ai-generated-images" target="_blank" rel="noopener">MTI written reply, 25 Feb 2026</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="band alt">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Watch</p>
+      <h2>Two reels. Both made with AI.</h2>
+      <p class="sub">The presenter is an AI avatar of Andrew with a cloned voice. No film crew, no studio. On the day, your team edits their own clips with Claude, and the AI staging is shown as a demonstration.</p>
+    </div>
+    <div class="reels-grid">
+      <div class="reels">
+        <div class="reel">
+          <div class="frame"><video controls playsinline preload="none" poster="media/ai-condo-tour-poster.jpg" aria-label="AI condo tour reel"><source src="media/ai-condo-tour.mp4" type="video/mp4"></video></div>
+          <h3>AI condo tour</h3>
+          <p>Four empty rooms furnish themselves. Every frame is generated.</p>
+          <p class="tag">AI-generated demo. Not a real property.</p>
+        </div>
+        <div class="reel">
+          <div class="frame"><video controls playsinline preload="none" poster="media/real-room-makeover-poster.jpg" aria-label="Real room makeover reel"><source src="media/real-room-makeover.mp4" type="video/mp4"></video></div>
+          <h3>Real room makeover</h3>
+          <p>A real phone clip. The furniture restyles itself as the camera pans.</p>
+          <p class="tag">Virtually staged with AI. Layout unchanged. AI avatar and voice.</p>
+        </div>
+      </div>
+      <ul class="how">
+        <li><b>Start with your raw phone clips</b><span>No new equipment.</span></li>
+        <li><b>Tell Claude what you want</b><span>In plain English.</span></li>
+        <li><b>Claude trims, captions and adds music</b><span>Your team checks every frame before it goes out.</span></li>
+        <li><b>Post it with the right disclaimer</b><span>Ready for Instagram, TikTok and WhatsApp.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">The day</p>
+      <h2>What your team walks away with</h2>
+      <p class="sub">Built on the day, on their own listings.</p>
+    </div>
+    <div class="feat">
+      <div class="f"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 9.5v5l4-2.5z" fill="currentColor"/></svg></div><div><h3>Raw clips to reel</h3><p>Claude trims, captions and adds music to your phone clips.</p></div></div>
+      <div class="f"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18v-5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v5"/><path d="M6 11V8a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v3"/><path d="M3 18h18M5 18v2M19 18v2"/></svg></div><div><h3>AI staging, done right</h3><p>See how a room is restyled with AI, and the disclaimer CEA expects.</p></div></div>
+      <div class="f"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg></div><div><h3>One listing, six assets</h3><p>Portal copy, captions, video script, WhatsApp blast, email and flyer.</p></div></div>
+      <div class="f"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.2A8 8 0 1 1 20 12z"/><path d="M8.5 11h7M8.5 14h4.5"/></svg></div><div><h3>Faster replies</h3><p>An AI assistant that drafts enquiry replies and follow-ups in your voice.</p></div></div>
+      <div class="f"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div><div><h3>Client-ready reports</h3><p>Turn public HDB and URA data into a one-page market report.</p></div></div>
+      <div class="f"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4" width="19" height="16" rx="2"/><path d="M2.5 8.5h19"/><circle cx="11" cy="14" r="2.6"/><path d="m13 16 2.5 2.5"/></svg></div><div><h3>Your own website</h3><p>A listings site with search and filters. No coding.</p></div></div>
+    </div>
+    <div class="day">
+      <div class="slot"><p class="t">Morning · 9:00am – 12:30pm</p><h3>Work faster</h3><p>Listing copy, captions, replies and client reports, done with Claude.</p></div>
+      <div class="slot"><p class="t">Afternoon · 1:30pm – 5:00pm</p><h3>Build your system</h3><p>Reels from your raw clips, your AI assistant and your listings website.</p></div>
+      <div class="slot"><p class="t">Each person needs</p><h3>Claude Pro</h3><p>A paid Claude Pro subscription and a laptop. We send setup steps before the day.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band alt">
+  <div class="wrap site-grid">
+    <a class="browser" href="https://realestate.impactuslearning.com/" target="_blank" rel="noopener" aria-label="Open the sample listings website">
+      <div class="barr"><i></i><i></i><i></i><span>realestate.impactuslearning.com</span></div>
+      <img src="media/mary-listings.jpg" alt="Sample property listings website showing HDB flats with prices, search and enquiry buttons" width="1600" height="1000">
+    </a>
+    <div>
+      <p class="eyebrow">Built with Claude</p>
+      <h2>A property listing website. No code.</h2>
+      <p class="sub">Andrew built this sample site by describing it to Claude. Everyone builds their own in the afternoon.</p>
+      <ul class="ticks">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg><span>HDB, condo and shophouse listings</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg><span>Search with 13 filters</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg><span>Enquiry form that emails you</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg><span>Works on phones</span></li>
+      </ul>
+      <a class="live" href="https://realestate.impactuslearning.com/" target="_blank" rel="noopener">Open the live site<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+      <p class="note" style="margin-top:12px">Sample data for demonstration. Not actual listings.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Your trainer</p>
+      <h2>He builds what he teaches. Then he shows your team how.</h2>
+    </div>
+    <div class="tr-grid">
+      <div class="portrait">
+        <img src="media/andrew-profile.jpg" alt="Andrew Chew" width="700" height="937">
+        <div><h3>Andrew Chew</h3><p>Founder &amp; Principal Trainer, Impactus Learning</p></div>
+      </div>
+      <div>
+        <div class="stats">
+          <div><b>1,400+</b><span>professionals trained by Andrew</span></div>
+          <div><b>2,000+</b><span>hours of Gen AI training</span></div>
+          <div><b>5.0 ★</b><span>on Google, 100+ reviews</span></div>
+        </div>
+        <dl class="creds">
+          <div><dt>Marketer first</dt><dd>MBA (Marketing), NTU. DBA, SUSS.<br><span>30 years of Fortune 500 leadership: Sony, Motorola, Dell, Philips, Schneider Electric.</span></dd></div>
+          <div><dt>Lectures at</dt><dd>Nanyang Business School, NTU<br>SUSS, Gen AI Master's programme</dd></div>
+          <div><dt>Certified</dt><dd>AI Governance Professional, IAPP<br><span>AI Strategy, MIT Sloan + CSAIL</span></dd></div>
+          <div><dt>Award</dt><dd>Utopia Platinum Award 2025<br><span>NTUC LearningHub, for 1,400+ training hours in 2025</span></dd></div>
+        </dl>
+        <div class="revs">
+          <figure class="rev"><q>Dr Andrew was clear, patient, and explained complex concepts in a way that was easy to understand.</q><div><span>Adam Teo</span><i>★★★★★</i></div></figure>
+          <figure class="rev"><q>I was amazed that we could create a live website with minimal effort and learn how AI can simplify and automate everyday tasks.</q><div><span>Violet Ngan</span><i>★★★★★</i></div></figure>
+          <figure class="rev"><q>I can honestly say it was one of the best investments I've made in my professional development.</q><div><span>Francis Tan</span><i>★★★★★</i></div></figure>
+        </div>
+        <p class="note" style="margin-top:10px">From Google reviews of Andrew's Claude masterclass.</p>
+      </div>
+    </div>
+    <div class="logos">
+      <p>Teams Andrew has trained</p>
+      <ul>
+        <li><img src="media/nespresso.png" alt="Nespresso" width="480" height="103"></li>
+        <li><img src="media/dp-world.svg" alt="DP World" width="182" height="42"></li>
+        <li><img class="tall" src="media/screenwriters-association-singapore.png" alt="Screenwriters Association (Singapore)" width="281" height="160"></li>
+        <li><img src="media/equalone.png" alt="equalOne" width="392" height="71"></li>
+        <li><img class="tall" src="media/bizpro-advisory.png" alt="BizPro Advisory" width="140" height="160"></li>
+      </ul>
+      <small>Includes training under AC-Eduworks, the predecessor of Impactus Learning. Logos are trademarks of their owners, shown only to identify teams Andrew has trained. No endorsement implied.</small>
+    </div>
+  </div>
+</section>
+
+<section class="band close">
+  <div class="wrap">
+    <p class="eyebrow">Private team days</p>
+    <h2>Book a day for your team</h2>
+    <p>We come to your office. No room? We can arrange a venue. Tell Andrew your team size and he will send the team pricing and open dates.</p>
+    <a class="btn" href="https://wa.me/6593942524" target="_blank" rel="noopener">WhatsApp Andrew</a>
+    <span class="num">+65 9394 2524 · andrew@impactuslearning.com</span>
+  </div>
+</section>
+<footer><div class="wrap">Impactus Learning Pte. Ltd. · impactuslearning.com</div></footer>
+
+<script>
+(function(){
+  var ba=document.getElementById('ba'), r=document.getElementById('baRange');
+  function set(){ ba.style.setProperty('--pos', r.value+'%'); }
+  r.addEventListener('input', set); set();
+  var views={viewSofa:['media/room-before-sofa.jpg','media/room-after-sofa.jpg'], viewPiano:['media/room-before-piano.jpg','media/room-after-piano.jpg']};
+  Object.keys(views).forEach(function(id){
+    document.getElementById(id).addEventListener('click', function(){
+      document.getElementById('baBefore').src=views[id][0];
+      document.getElementById('baAfter').src=views[id][1];
+      Object.keys(views).forEach(function(k){ document.getElementById(k).setAttribute('aria-pressed', String(k===id)); });
+    });
+  });
+  var vids=[].slice.call(document.querySelectorAll('video'));
+  vids.forEach(function(v){ v.addEventListener('play', function(){ vids.forEach(function(o){ if(o!==v) o.pause(); }); }); });
+})();
+</script>
+
+</body>
+</html>
